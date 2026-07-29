@@ -1068,7 +1068,7 @@ class Component extends DCLogic {
     return true;
   }
 
-  /* support.js 가 렌더를 여러 번 하며 .ytlite 를 되돌린다 → 붙을 때까지 계속 확인한다 */
+  /* (아래 statOverlay 와 같은 이유로) support.js 가 렌더를 여러 번 하며 .ytlite 를 되돌린다 → 붙을 때까지 계속 확인한다 */
   function boot() {
     Object.keys(SELF).forEach(function (id) { swap(id, SELF[id]); });
     if (++tries < 60) setTimeout(boot, 400);
@@ -1144,6 +1144,38 @@ class Component extends DCLogic {
     vs.forEach(function (v) { io.observe(v); });
   }
   setTimeout(arm, 900);
+})();
+</script>
+
+<script>
+/* 팀 수치를 히어로 다음 큰 이미지 아래쪽에 얹는다 (대표님 2026-07-29).
+   인물을 가리지 않도록 하단 스크림 위에만 놓는다. support.js 가 다시 그리므로 계속 확인한다. */
+(function () {
+  var STATS = [['02','Directors'],['16','AI Agents'],['07','Creators'],['16K','Mastering']];
+  function go() {
+    var img = [].slice.call(document.images).filter(function (i) {
+      return /zero-grav/.test(i.getAttribute('src') || '');
+    })[0];
+    if (img) {
+      var box = img.parentElement;
+      if (!box.querySelector('.statov')) {
+        if (getComputedStyle(box).position === 'static') box.style.position = 'relative';
+        var d = document.createElement('div');
+        d.className = 'statov';
+        d.style.cssText = 'position:absolute; left:0; right:0; bottom:0; padding:34px 36px;' +
+          'display:grid; grid-template-columns:repeat(4,1fr); color:#F2F2F0; pointer-events:none; z-index:5;' +
+          'background:linear-gradient(to top,rgba(10,10,11,.86),rgba(10,10,11,0))';
+        d.innerHTML = STATS.map(function (s) {
+          return "<div><div style='font-size:44px; font-weight:600; letter-spacing:-.045em; line-height:1'>" + s[0] +
+                 "</div><div style='font-size:11px; font-weight:500; letter-spacing:.2em; text-transform:uppercase;" +
+                 "color:rgba(242,242,240,.72); margin-top:8px'>" + s[1] + "</div></div>";
+        }).join('');
+        box.appendChild(d);
+      }
+    }
+    setTimeout(go, 600);
+  }
+  setTimeout(go, 500);
 })();
 </script>
 </body>
