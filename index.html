@@ -1157,6 +1157,146 @@ class Component extends DCLogic {
   setTimeout(go, 500);
 })();
 
+
+/* 한/영 토글 — 콘진원 바우처 04번(다국어) 항목.
+   support.js 가 화면을 다시 그려도 유지되도록 주기적으로 다시 적용한다.
+   "generative" 는 쓰지 않는다 (대표님 룰). */
+(function () {
+  var KO2EN = {
+    "기획": "Planning",
+    "AI 생성": "AI production",
+    "개발": "Development",
+    "화이트블러드 · AI 장편영화": "AI feature film",
+    "각본 · 콘셉트 디자인 · 시퀀스 생성까지": "Screenplay, concept design, sequence production",
+    "자체 제작 중인 오리지널 장편": "An original feature made in-house",
+    "빛의 수호자들 · 에버랜드 50주년 기념 16K 영상": "Guardians of Light · 16K show film",
+    "하롱베이 타워 & 리조트": "Tower & resort",
+    "한탄강 지질공원 전시영상": "Geopark exhibition film",
+    "2025 경주 APEC 주제영상 · 16K": "Theme film · 16K",
+    "미디어아트 · 쇼": "Media art & show",
+    "미디어파크, 워터쇼, 불꽃쇼, 전시.": "Media parks, water shows, fireworks, exhibitions.",
+    "애니메이션 · IP": "Animation & IP",
+    "오리지널 캐릭터, 시리즈, 팝업 월드.": "Original characters, series, pop-up worlds.",
+    "AI 영화 · 광고": "AI film & ads",
+    "브랜드 필름, 뮤직비디오, 티저 — 자체 연출.": "Brand films, music videos, teasers — directed in-house.",
+    "게임 · XR": "Game & XR",
+    "시네마틱, 플레이어블, 헤드셋·프로젝션.": "Cinematics, playables, headset and projection.",
+    "AI 개발 · 파이프라인": "AI development & pipeline",
+    "자체 툴, 사이니지 시스템, 건축 시뮬레이션 영상.": "In-house tools, signage systems, architectural simulation films.",
+    "우리동네 페로 · 파일럿 필름": "Pilot film",
+    "닌자 자자마루군 리메이크": "Remake",
+    "컨셉아트 · 인게임 시네마틱 · 캐릭터 팩": "Concept art · in-game cinematics · character pack",
+    "귀문: 조선요괴전 XR": "Free-roam XR",
+    "헤드셋 · 프로젝션 룸 · 전시 규모 인터랙션": "Headset · projection room · exhibition-scale interaction",
+    "써니엔터테인먼트": "Sunny Entertainment",
+    "물 · 빛 · 불꽃": "Water, light & fire",
+    "알폰스 무하 미디어아트 전시": "Alphonse Mucha media art exhibition",
+    "광명 U플래닛 · 국내 최대 100m 투명 LED": "Gwangmyeong U-Planet · Korea's largest 100m transparent LED",
+    "공주 공산성 미디어아트파크 「백제연화」": "Gongju Gongsanseong Media Art Park, Baekje Lotus",
+    "공간 · 쇼": "Space & show",
+    "익산 보석박물관 인터랙티브 실감콘텐츠": "Iksan Jewelry Museum interactive immersive content",
+    "미디어아트 · 실감콘텐츠": "Media art & immersive content",
+    "버추얼 스페이스 · VR 실감 문명체험": "Virtual space · VR heritage experience",
+    "영화 시각효과": "Film visual effects",
+    "제천 의림지 야간 미디어파사드": "Jecheon Uirimji night media facade",
+    "베트남 하롱베이 EYE360 콘텐츠 기획 총괄 · 에버랜드 50주년 기념 특별 영상 「빛의 수호자들」 · 베트남 투안차우 그룹 MOU · AI 장편영화 제작 착수": "Ha Long Bay EYE360 content direction, Vietnam · Everland 50th anniversary special film Guardians of Light · MOU with Tuan Chau Group, Vietnam · AI feature film production begins",
+    "강릉 경포호 스카이워크 프로젝트 미디어아트·워터쇼·LED 파사드 콘텐츠 총괄 · 경주 APEC 세계정상 만찬 문화예술행사 영상총괄": "Gangneung Gyeongpo Lake Skywalk — media art, water show and LED facade direction · Gyeongju APEC state dinner cultural programme, film direction",
+    "서울 트윈아이 워터시어터 기획·제작 및 디지털 사이니지 구축사업 총괄 · 춘천 위도 호텔 프로젝트 미디어아트 수주 · 미디어아트·디지털 사이니지 AI 솔루션": "Seoul Twin Eye water theatre planning and production, digital signage project supervision · Chuncheon Wido hotel media art commission · Media art and digital signage AI solutions",
+    "포천 한탄강 지질공원 미디어파크 · 포천 아트밸리 전망대 리뉴얼 · 에버랜드 나비체험관 입구 영상(2023.01 오픈)": "Pocheon Hantangang Geopark media park · Pocheon Art Valley observatory renewal · Everland Butterfly Experience Center entrance film (opened Jan 2023)",
+    "안동 유교랜드 리뉴얼 · 롯데 스카이타워 리뉴얼 · 인천 코아루 사이니지·미디어아트 · 캄보디아 스마트시티 구축 제안 · LG CNS 부산·세종 스마트시티 컨설팅": "Andong Confucian Land renewal · Lotte Sky Tower renewal · Incheon Koaru signage and media art · Cambodia smart city proposal · LG CNS Busan and Sejong smart city consulting",
+    "넥스트아트 법인 설립 — 아트테크·애니메이션·웹툰 사업부 · 안동 온드레피움 리뉴얼 · 인천항 크루즈터미널 사이니지 · 고성 공룡 테마파크 리조트 · 롯데면세점 메타버스몰 · 후난 신년음악회 · 주렁주렁 판타지트레인 XR 어트랙션": "NEXT ART incorporated — art tech, animation and webtoon divisions · Andong Ondrepium renewal · Incheon Port cruise terminal signage · Goseong dinosaur theme park resort · Lotte Duty Free metaverse mall · Hunan New Year concert · ZoolungZoolung Fantasy Train XR attraction",
+    "강남터미널·신세계 사이니지 마스터플랜 · 덕산 온천리조트 · 남양주 월문 영화문화복합단지 · 현대 U-PLEX 신촌 LED월 「EMPTY」 아나모픽": "Gangnam Terminal and Shinsegae signage master plan · Deoksan hot spring resort · Namyangju Wolmun film culture complex · HYUNDAI U-PLEX Sinchon LED wall, EMPTY anamorphic",
+    "(개인 실적)": "(Prior studio — personal record)",
+    "영화·드라마 VFX 120편 · 드라마 제작 2편 · 영화 제작 2편": "VFX for 120 films and dramas · 2 dramas produced · 2 films produced",
+    "해남 빛의 숲 · 창저우 공룡파크 리뉴얼 계획": "Haenam Forest of Light · Changzhou Dinosaur Park renewal plan",
+    "산업단지 개발 컨설팅 · 김해 스포츠레저 복합단지": "Industrial complex development consulting · Gimhae sports and leisure complex",
+    "LG CNS 아스타나 엑스포 토탈플랜 · 용인 리빙몰 아트프로젝트 디렉션 · 인천공항 신터미널 리뉴얼": "LG CNS Astana Expo total plan · Yongin Living Mall art project direction · Incheon Airport new terminal renewal",
+    "롯데아울렛 기흥 아트프로젝트 · 월미도 관광지구 리뉴얼 · 용인 아트컬처 테마타운": "Lotte Outlet Giheung art project · Wolmido tourism district renewal · Yongin art culture theme town",
+    "해남 오세아노 스포츠단지 · 현대자동차 테마파크 마스터플랜 · 인천공항 미디어 마스터플랜": "Haenam Oceano sports complex · Hyundai Motor theme park master plan · Incheon Airport media master plan",
+    "칠레 문화 랜드마크 토탈플랜 · 남미 APOQUINDO 타운센터 · 인도 노이다 Wave ON 상업몰": "Chile cultural landmark total plan · APOQUINDO Town Center, South America · Wave ON commercial mall, Noida, India",
+    "완도 관광단지 개발계획 - 호텔·리조트·의료·마리나": "Wando tourism complex development plan — hotel, resort, medical, marina",
+    "주하이 워터쇼 · 판진 국제페스티벌 대형 분수쇼 · 광둥성체전 개막 워터쇼 · 카자흐스탄·리야드 레이저 워터쇼": "Zhuhai water show · Panjin International Festival large fountain show · Guangdong Games opening water show · Kazakhstan and Riyadh laser water shows",
+    "광저우 공룡 테마파크 · 장자제 테마파크 · 포산 디지털 워터스크린 · 칭하이 엑스포 조명 분수쇼": "Guangzhou dinosaur theme park · Zhangjiajie theme park · Foshan digital water screen · Qinghai Expo lighting fountain show",
+    "넥스트아트 상하이 설립 · 상하이 엑스포 기획 · 살아있는 미술관 DB·큐레이션": "NEXT ART Shanghai established · Shanghai Expo planning · Alive Gallery database and curation",
+    "ETRI IT 원천기술 개발협약": "ETRI core IT technology development agreement",
+    "해남 관광단지 마스터플랜 - 리조트·의료·테마파크·마리나": "Haenam tourism complex master plan — resort, medical, theme park, marina",
+    "호주 CSIRO 체험형 테마파크 공동개발": "Joint development of an experiential theme park with CSIRO, Australia",
+    "문화원형 개발 - 경주 불국사·신라유산 · 강릉 단오제": "Cultural heritage development — Bulguksa and Silla heritage, Gyeongju · Gangneung Danoje",
+    "넥스트비쥬얼 스튜디오 설립 - 넥스트아트의 시작": "Next Visual Studio founded — the beginning of NEXT ART",
+    "베트남 · 중국 · 카자흐스탄 · 중동": "Vietnam · China · Kazakhstan · Middle East",
+    "투안차우 그룹 · 베트남": "Tuan Chau Group · Vietnam",
+    "2026.06.17 체결 · K-pop 공연 · 페스티벌 기획": "Signed 17 June 2026 · K-pop performance · festival planning",
+    "춘천 위도 복합리조트": "Chuncheon Wido complex resort",
+    "교량 아트 · 호텔 메인 분수쇼 · 워터뮤지컬": "Bridge art · hotel main fountain show · water musical",
+    "애니메이션 · 시리즈": "Animation · series",
+    "조선요괴어드벤처: 서울수난기": "Joseon Yokai Adventure: Seoul Ordeal",
+    "5분 x 10부작 · 3분 트레일러 단계": "10 episodes x 5 min · 3-min trailer stage",
+    "with 써니엔터테인먼트": "with Sunny Entertainment",
+    "XR · 체험형": "XR · experiential",
+    "타임머신: 쥬라기 공룡시대": "Time Machine: The Jurassic Era",
+    "XR 어트랙션 · 전시 · 체험형 콘텐츠": "XR attraction · exhibition · experiential content",
+    "한강": "Hangang",
+    "한국전쟁 소재 · 14화 브레이크다운 완성": "Set in the Korean War · 14-episode breakdown complete",
+    "서울 강남구 역삼로 217, 3층 303호": "303, 3F, 217 Yeoksam-ro, Gangnam-gu, Seoul",
+    "넥스트아트 주식회사": "NEXT ART Co., Ltd."
+  };
+  var EN2KO = {};
+  for (var k in KO2EN) EN2KO[KO2EN[k]] = k;
+
+  var lang = 'ko';
+  try { lang = localStorage.getItem('na-lang') || 'ko'; } catch (e) {}
+  // ?lang=en 으로 열면 바로 영문 (심사·공유용 링크)
+  var q = (location.search.match(/[?&]lang=(ko|en)/) || [])[1];
+  if (q) { lang = q; try { localStorage.setItem('na-lang', lang); } catch (e) {} }
+
+  function swap(to) {
+    var dict = (to === 'en') ? KO2EN : EN2KO;
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    var n, hits = [];
+    while ((n = w.nextNode())) {
+      var t = (n.nodeValue || '').trim();
+      if (!t) continue;
+      if (n.parentElement && n.parentElement.closest('script,style')) continue;
+      if (dict[t]) hits.push([n, dict[t]]);
+    }
+    hits.forEach(function (h) { h[0].nodeValue = h[0].nodeValue.replace(h[0].nodeValue.trim(), h[1]); });
+    document.documentElement.lang = (to === 'en') ? 'en' : 'ko';
+  }
+
+  function label() {
+    var el = document.getElementById('langBtn');
+    if (el) el.textContent = (lang === 'en') ? 'KO' : 'EN';
+  }
+
+  function arm() {
+    // 네비의 KO/EN 자리를 찾아 실제로 동작하게 만든다
+    var cand = [].slice.call(document.querySelectorAll('div,span,a')).filter(function (e) {
+      return e.children.length === 0 && /^(KO|EN)$/.test((e.textContent || '').trim());
+    });
+    cand.forEach(function (e) {
+      e.id = 'langBtn';
+      e.style.cursor = 'pointer';
+    });
+    if (lang === 'en') swap('en');
+    label();
+    setTimeout(arm, 700);
+  }
+
+  document.addEventListener('click', function (e) {
+    if (!e.target || !e.target.closest) return;
+    if (!e.target.closest('#langBtn')) return;
+    e.preventDefault();
+    lang = (lang === 'en') ? 'ko' : 'en';
+    try { localStorage.setItem('na-lang', lang); } catch (x) {}
+    swap(lang);
+    label();
+  });
+
+  setTimeout(arm, 600);
+})();
+
+
+
 /* 문의 폼 — support.js 가 화면을 다시 그려도 살아있도록 위임 방식으로 건다.
    FORM_KEY = web3forms.com 에서 이메일만 넣으면 받는 무료 키(월 250건).
    키가 비어 있는 동안은 예전처럼 메일 앱이 열린다. */
