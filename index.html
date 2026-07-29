@@ -1094,37 +1094,7 @@ class Component extends DCLogic {
     </div>
   </div>
 </div>
-<script>
-(function () {
-  function el(id) { return document.getElementById(id); }
-  function arm() {
-    var open = el('cfOpen'), modal = el('cfModal');
-    if (!open || !modal) return setTimeout(arm, 300);
-    function show(v) { modal.style.display = v ? 'flex' : 'none'; document.body.style.overflow = v ? 'hidden' : ''; }
-    open.addEventListener('click', function () { show(true); });
-    el('cfClose').addEventListener('click', function () { show(false); });
-    modal.addEventListener('click', function (e) { if (e.target === modal) show(false); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') show(false); });
-    el('cfSend').addEventListener('click', function () {
-      var n = el('cfName').value.trim(), m = el('cfEmail').value.trim(),
-          c = el('cfCompany').value.trim(), t = el('cfMsg').value.trim();
-      if (!n || !m || !t) {
-        var miss = [];
-        if (!n) miss.push('이름');
-        if (!m) miss.push('이메일');
-        if (!t) miss.push('내용');
-        alert(miss.join(' · ') + ' 을(를) 적어주세요.');
-        return;
-      }
-      if (m.indexOf('@') < 0 || m.indexOf('.') < 0) { alert('이메일 주소를 확인해주세요.'); return; }
-      var subject = '[NEXTART] 프로젝트 문의' + (c ? ' - ' + c : '') + (n ? ' / ' + n : '');
-      var body = ['이름: ' + n, '이메일: ' + m, '회사: ' + c, '', t].join('\n');
-      window.location.href = 'mailto:nextartman@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    });
-  }
-  arm();
-})();
-</script>
+
 
 <script>
 /* 화면 밖 영상은 멈춘다 (배터리·데이터 절약) */
@@ -1175,6 +1145,68 @@ class Component extends DCLogic {
   }
   setTimeout(go, 500);
 })();
+
+/* 문의 폼 — support.js 가 화면을 다시 그려도 살아있도록 위임 방식으로 건다.
+   FORM_KEY = web3forms.com 에서 이메일만 넣으면 받는 무료 키(월 250건).
+   키가 비어 있는 동안은 예전처럼 메일 앱이 열린다. */
+(function () {
+  window.__cfFormLoaded = true;
+  var FORM_KEY = '';
+  var TO_MAIL = 'nextartman@gmail.com';
+  function el(id) { return document.getElementById(id); }
+  function show(v) {
+    var m = el('cfModal'); if (!m) return;
+    m.style.display = v ? 'flex' : 'none';
+    document.body.style.overflow = v ? 'hidden' : '';
+  }
+  function send() {
+    var n = el('cfName').value.trim(), m = el('cfEmail').value.trim(),
+        c = el('cfCompany').value.trim(), t = el('cfMsg').value.trim();
+    var miss = [];
+    if (!n) miss.push('이름');
+    if (!m) miss.push('이메일');
+    if (!t) miss.push('내용');
+    if (miss.length) { alert(miss.join(' · ') + ' 을(를) 적어주세요.'); return; }
+    if (m.indexOf('@') < 0 || m.indexOf('.') < 0) { alert('이메일 주소를 확인해주세요.'); return; }
+
+    var subject = '[NEXTART] 프로젝트 문의' + (c ? ' - ' + c : '') + ' / ' + n;
+    if (!FORM_KEY) {
+      var body = ['이름: ' + n, '이메일: ' + m, '회사: ' + c, '', t].join('\n');
+      window.location.href = 'mailto:' + TO_MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      return;
+    }
+    var btn = el('cfSend'), label = btn.textContent;
+    btn.textContent = '[ 보내는 중… ]'; btn.style.pointerEvents = 'none';
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ access_key: FORM_KEY, subject: subject, from_name: 'NEXTART 홈페이지',
+                             name: n, email: m, company: c || '-', message: t })
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      if (!d || !d.success) throw new Error('fail');
+      btn.textContent = '[ 보냈습니다 ]';
+      btn.style.background = '#E2452A'; btn.style.color = '#F2F2F0';
+      ['cfName','cfEmail','cfCompany','cfMsg'].forEach(function (k) { el(k).value = ''; });
+      setTimeout(function () {
+        btn.textContent = label; btn.style.background = '#F2F2F0'; btn.style.color = '#0A0A0B';
+        btn.style.pointerEvents = ''; show(false);
+      }, 2200);
+    }).catch(function () {
+      btn.textContent = label; btn.style.pointerEvents = '';
+      alert('전송이 안 됐습니다. ' + TO_MAIL + ' 으로 보내주시면 확인하겠습니다.');
+    });
+  }
+  document.addEventListener('click', function (e) {
+    if (!e.target || !e.target.closest) return;
+    if (e.target.closest('#cfOpen'))  { e.preventDefault(); show(true); return; }
+    if (e.target.closest('#cfClose')) { show(false); return; }
+    if (e.target.closest('#cfSend'))  { send(); return; }
+    if (e.target.id === 'cfModal')    { show(false); }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') show(false); });
+})();
+
 </script>
+
 </body>
 </html>
