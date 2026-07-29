@@ -223,7 +223,7 @@
 
   <div style="padding:24px 36px 20px; display:grid; grid-template-columns:2.15fr 1fr; gap:28px">
     <div style="order:2; text-align:right; display:flex; flex-direction:column; justify-content:flex-end; padding:0 0 6px 0">
-      <div style="flex:1; min-height:220px; margin-bottom:26px; overflow:hidden; background:#111114; position:relative"><img src="assets/work/wb-character-01.png" alt="" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 12%"><div style="position:absolute; left:0; right:0; bottom:0; padding:12px 14px; text-align:left; pointer-events:none; background:linear-gradient(to top,rgba(10,10,11,.88),rgba(10,10,11,0)); font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:#F2F2F0">Character design</div></div>
+      <div style="flex:1; min-height:220px; margin-bottom:26px; overflow:hidden; background:#111114; position:relative"><img src="assets/work/white-blood-03.jpg" alt="" loading="lazy" style="position:absolute; top:0; left:0; width:100%; height:auto; display:block"><div style="position:absolute; left:0; right:0; bottom:0; padding:12px 14px; text-align:left; pointer-events:none; background:linear-gradient(to top,rgba(10,10,11,.88),rgba(10,10,11,0)); font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:#F2F2F0">Character design</div></div>
       <div>
       <div style="font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:#6B6B70; margin-bottom:14px">Feature film · In production</div>
         <div style="font-size:52px; font-weight:600; line-height:1.05; letter-spacing:-.035em">White Blood<div style="font-size:20px; font-weight:500; letter-spacing:-.02em; line-height:1.25; color:#C9C9C6; margin-top:5px; text-transform:none">화이트블러드 · AI 장편영화</div></div>
@@ -672,6 +672,7 @@
 const U = 'uploads/';
 const W = 'assets/work/';
 const A = 'assets/archive/';
+const L = 'assets/legacy/';
 
 const WORKS = [
   { cat:'film', kind:'text', span:1, rows:1, bg:'#E2452A', fg:'#F2F2F0', blockKicker:'01', blockTitle:'AI FILM & ADS', blockBody:'AI 영화 · 광고', featured:true, slot:'block-01' },
@@ -691,6 +692,26 @@ const WORKS = [
   { cat:'show', label:'MEDIA ART', title:'Hantangang Geopark', year:'', img:W+'hantangang-04.jpg', span:1, rows:1, gallery:[W+'hantangang-01.jpg',W+'hantangang-02.jpg',W+'hantangang-03.jpg',W+'hantangang-04.jpg'], featured:true, slot:'work-15' },
   { cat:'show', label:'FILM', title:'APEC cultural program', year:'2025', img:W+'apec-01.jpg', span:1, rows:1, gallery:[W+'apec-01.jpg',W+'apec-02.jpg',W+'apec-03.jpg',W+'apec-04.jpg'], featured:true, slot:'work-16' },
   { cat:'film', label:'VFX', title:'Filmography', year:'', img:W+'vfx-01.png', span:2, rows:1, gallery:[W+'vfx-01.png'], featured:true, slot:'work-17' },
+  { cat:'show', label:'SHOW', title:'Fountain show', year:'', img:W+'fountain-01.jpg', span:1, rows:1, gallery:[W+'fountain-01.jpg',W+'fountain-02.jpg',W+'fountain-03.jpg',W+'fountain-04.jpg'], featured:true, slot:'work-18' },
+  { cat:'show', label:'MOU', title:'Tuan Chau MOU', year:'', img:W+'mou-08.jpg', span:1, rows:1, gallery:[W+'mou-01.jpg',W+'mou-02.jpg',W+'mou-03.jpg',W+'mou-04.jpg'], featured:true, slot:'work-19' },
+  { cat:'show', label:'MEDIA ART', title:'Living Power Center', year:'', img:L+'proj-00-0.jpg', span:1, rows:1, gallery:[L+'proj-00-0.jpg',L+'proj-00-1.jpg',L+'proj-00-2.jpg',L+'proj-00-3.jpg'], featured:true, slot:'work-20' },
+  { cat:'show', label:'MEDIA ART', title:'Lotte Suji Outlet', year:'', img:L+'proj-01-0.jpg', span:1, rows:1, gallery:[L+'proj-01-0.jpg',L+'proj-01-1.jpg',L+'proj-01-2.jpg',L+'proj-01-3.jpg'], featured:true, slot:'work-21' },
+  { cat:'show', label:'MEDIA ART', title:'ACC Gwangju', year:'', img:L+'proj-02-0.jpg', span:1, rows:1, gallery:[L+'proj-02-0.jpg',L+'proj-02-1.jpg',L+'proj-02-2.jpg'], featured:true, slot:'work-22' },
+  { cat:'show', label:'MEDIA ART', title:'Shanghai Expo 2010', year:'', img:L+'proj-03-0.jpg', span:1, rows:1, gallery:[L+'proj-03-0.jpg'], featured:true, slot:'work-23' },
+  { cat:'show', label:'MEDIA ART', title:'Alive Gallery', year:'', img:L+'proj-04-0.jpg', span:1, rows:1, gallery:[L+'proj-04-0.jpg',L+'proj-04-1.jpg'], featured:true, slot:'work-24' },
+  { cat:'show', label:'MEDIA ART', title:'BNK Busan', year:'', img:L+'proj-08-1.jpg', span:1, rows:1, gallery:[L+'proj-08-0.jpg',L+'proj-08-1.jpg',L+'proj-08-2.jpg'], featured:true, slot:'work-25' },
+  { cat:'show', label:'MEDIA ART', title:'Beijing Cultural Center', year:'', img:L+'proj-10-0.jpg', span:1, rows:1, gallery:[L+'proj-10-0.jpg'], featured:true, slot:'work-26' },
+  { cat:'show', label:'MEDIA ART', title:'Alphonse Mucha', year:'알폰스 무하 미디어아트 전시', img:L+'kr-00-1.jpg', span:1, rows:1, gallery:[L+'kr-00-1.jpg',L+'kr-00-2.jpg',L+'kr-00-3.jpg'], featured:true, slot:'work-27' },
+  { cat:'show', label:'MEDIA ART', title:'Gyeongju Culture Expo', year:'경주 살롱헤리티지 17K OLED 미디어터널', img:L+'kr-01-0.jpg', span:1, rows:1, gallery:[L+'kr-01-0.jpg',L+'kr-01-2.jpg',L+'kr-01-3.jpg'], featured:true, slot:'work-28' },
+  { cat:'show', label:'MEDIA ART', title:'Gwangmyeong U-Planet', year:'광명 U플래닛 · 국내 최대 100m 투명 LED', img:L+'kr-09-1.jpg', span:1, rows:1, gallery:[L+'kr-09-1.jpg'], featured:true, slot:'work-29' },
+  { cat:'show', label:'MEDIA ART', title:'Gongju Geumgang', year:'공주 공산성 미디어아트파크 「백제연화」', img:L+'kr-05-1.jpg', span:1, rows:1, gallery:[L+'kr-05-1.jpg',L+'kr-05-2.jpg',L+'kr-05-3.jpg'], featured:true, slot:'work-30' },
+  { cat:'show', label:'MEDIA ART', title:'Gayasan', year:'가야산 역사신화테마관', img:L+'kr-07-1.jpg', span:1, rows:1, gallery:[L+'kr-07-1.jpg'], featured:true, slot:'work-31' },
+  { cat:'show', label:'MEDIA ART', title:'Hwangnyongsa', year:'황룡사 역사박물관 3면 프로젝션 매핑', img:L+'kr-08-1.jpg', span:1, rows:1, gallery:[L+'kr-08-1.jpg',L+'kr-08-2.jpg'], featured:true, slot:'work-32' },
+  { cat:'show', label:'MEDIA ART', title:'Iksan Jewelry Museum', year:'익산 보석박물관 인터랙티브 실감콘텐츠', img:L+'kr-10-1.jpg', span:1, rows:1, gallery:[L+'kr-10-1.jpg',L+'kr-10-2.jpg'], featured:true, slot:'work-33' },
+  { cat:'show', label:'MEDIA ART', title:'Jecheon Uirimji', year:'제천 의림지 야간 미디어파사드', img:L+'kr-04-1.jpg', span:1, rows:1, gallery:[L+'kr-04-1.jpg'], featured:true, slot:'work-34' },
+  { cat:'show', label:'MEDIA ART', title:'HYUNDAI U-PLEX', year:'현대 U-PLEX 신촌 LED월', img:L+'kr-02-0.jpg', span:1, rows:1, gallery:[L+'kr-02-0.jpg'], featured:true, slot:'work-35' },
+  { cat:'show', label:'MEDIA ART', title:'Everland Butterfly', year:'에버랜드 나비체험관', img:L+'kr-03-1.jpg', span:1, rows:1, gallery:[L+'kr-03-1.jpg'], featured:true, slot:'work-36' },
+  { cat:'xr', label:'XR', title:'ZoolungZoolung Fantasy Train', year:'주렁주렁 판타지 트레인 · 체험형 어트랙션', img:L+'kr-06-0.jpg', span:1, rows:1, gallery:[L+'kr-06-0.jpg'], featured:true, slot:'work-37' },
 ];
 const CATS = [
   { key:'all',  name:'All work' },
