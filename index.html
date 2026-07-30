@@ -579,8 +579,9 @@
         </div>
       </div>
     </div>
-    <!-- 사진이 원본 비율을 유지하므로 카드는 높이를 고정하지 않고 사진에 맞춘다 -->
-    <div style="box-sizing:border-box; background:#17171B; border:1px solid #2E2E36; padding:36px 30px; display:flex; flex-direction:column; justify-content:flex-start; height:100%; min-height:400px">
+    <!-- 카드는 항상 왼쪽 사진과 같은 높이. min-height 를 두면 화면이 좁아질 때
+         사진보다 카드가 길어져 아래 라인이 어긋난다 (김감독 지적 2026-07-30) -->
+    <div style="box-sizing:border-box; background:#17171B; border:1px solid #2E2E36; padding:36px 30px; display:flex; flex-direction:column; justify-content:flex-start; height:100%">
       <div>
         <div style="font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:#6B6B70">Vietnam</div>
         <div style="font-size:34px; font-weight:600; line-height:1.05; letter-spacing:-.035em; margin-top:16px">Tuan Chau Group</div>
