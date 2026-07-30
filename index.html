@@ -1160,6 +1160,46 @@ class Component extends DCLogic {
   }
   setTimeout(go, 500);
 })();
+/* Cloudflare 가 이메일을 자동으로 가려버린다(Email Address Obfuscation).
+   컨택하라고 올린 주소라 가려선 안 된다 → 원래 주소로 되돌린다.
+   대표님 2026-07-30: "우리 이메일이 많이 컨택하라고 홈피에 넣는건데 왜 프로텍트야" */
+(function () {
+  function dec(hex) {
+    var out = '', k = parseInt(hex.substr(0, 2), 16);
+    for (var i = 2; i < hex.length; i += 2) out += String.fromCharCode(parseInt(hex.substr(i, 2), 16) ^ k);
+    return out;
+  }
+  function fix() {
+    // <span data-cfemail="..."> → 실제 주소
+    [].slice.call(document.querySelectorAll('[data-cfemail]')).forEach(function (el) {
+      try {
+        el.textContent = dec(el.getAttribute('data-cfemail'));
+        el.removeAttribute('data-cfemail');
+      } catch (e) {}
+    });
+    // <a href="/cdn-cgi/l/email-protection#..."> → mailto:
+    [].slice.call(document.querySelectorAll('a[href*="email-protection"]')).forEach(function (a) {
+      try {
+        var hx = a.getAttribute('href').split('#')[1];
+        if (!hx) return;
+        var mail = dec(hx);
+        a.setAttribute('href', 'mailto:' + mail);
+        if (/\[email/.test(a.textContent) || !a.textContent.trim()) a.textContent = mail;
+      } catch (e) {}
+    });
+    // 혹시 남은 자리표시 문구
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    var n;
+    while ((n = w.nextNode())) {
+      if (n.nodeValue && n.nodeValue.indexOf('[email') > -1) {
+        n.nodeValue = n.nodeValue.replace(/\[email\s*protected\]/gi, 'nextartman@gmail.com');
+      }
+    }
+    setTimeout(fix, 700);
+  }
+  setTimeout(fix, 200);
+})();
+
 
 
 /* 한/영 토글 — 콘진원 바우처 04번(다국어) 항목.
