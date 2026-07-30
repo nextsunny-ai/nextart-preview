@@ -568,8 +568,10 @@
   </div>
   <div class="rv" style="padding:16px 36px 104px; display:grid; grid-template-columns:1.5fr 1fr; gap:20px">
     <div style="position:relative; display:flex; flex-direction:column">
-      <div style="position:relative; height:400px; overflow:hidden; background:#111114">
-        <img src="assets/work/mou-08.jpg" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover">
+      <!-- MOU 사진 = 뒤 스크린의 넥스트아트 로고가 잘리면 안 된다 (김감독 지적 2026-07-30)
+           → cover 로 자르지 않고 원본 비율(1600x942)을 그대로 유지한다 -->
+      <div style="position:relative; aspect-ratio:1600/942; overflow:hidden; background:#111114">
+        <img src="assets/work/mou-08.jpg" alt="" loading="lazy" style="width:100%; height:100%; object-fit:contain; object-position:50% 50%">
         <div style="position:absolute; left:0; right:0; bottom:0; padding:16px 18px; background:linear-gradient(to top,rgba(10,10,11,.9),rgba(10,10,11,0))">
           <div style="font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase">
             Tuan Chau Group — Vietnam
@@ -577,7 +579,8 @@
         </div>
       </div>
     </div>
-    <div style="box-sizing:border-box; background:#17171B; border:1px solid #2E2E36; padding:36px 30px; display:flex; flex-direction:column; justify-content:flex-start; height:400px">
+    <!-- 사진이 원본 비율을 유지하므로 카드는 높이를 고정하지 않고 사진에 맞춘다 -->
+    <div style="box-sizing:border-box; background:#17171B; border:1px solid #2E2E36; padding:36px 30px; display:flex; flex-direction:column; justify-content:flex-start; height:100%; min-height:400px">
       <div>
         <div style="font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:#6B6B70">Vietnam</div>
         <div style="font-size:34px; font-weight:600; line-height:1.05; letter-spacing:-.035em; margin-top:16px">Tuan Chau Group</div>
